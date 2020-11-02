@@ -1,89 +1,42 @@
-/**
- * SEO component that queries for data with
- *  Gatsby's useStaticQuery React hook
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
 import React from "react"
+import Helmet from "react-helmet"
+
 import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
 
-function SEO({ description, lang, meta, title }) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
-        }
-      }
-    `
-  )
-
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
-
+const Seo = ({ lang, title, description, siteURL, siteImage, author }) => {
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
-      meta={[
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: title,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: site.siteMetadata?.author || ``,
-        },
-        {
-          name: `twitter:title`,
-          content: title,
-        },
-        {
-          name: `twitter:description`,
-          content: metaDescription,
-        },
-      ].concat(meta)}
-    />
+    <Helmet title={title}>
+      <html lang={lang} />
+      <meta name="description" content={description} />
+      <meta name="image" content={`${siteURL}/images/${siteImage}`} />
+      <meta name="image:alt" content={description} />
+
+      {/* Facebook */}
+      <meta property="og:title" content={title} />
+      <meta property="og:url" content={siteURL} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={`${siteURL}/images/${siteImage}`} />
+      <meta property="og:type" content="website" />
+      <meta property="og:image:alt" content={description} />
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:url" content={siteURL} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={`${siteURL}/images/${siteImage}`} />
+      <meta name="twitter:image:alt" content={description}></meta>
+      <meta name="twitter:creator" content={author}></meta>
+    </Helmet>
   )
 }
 
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
+Seo.propTypes = {
+  lang: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  siteURL: PropTypes.string.isRequired,
+  siteImage: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
 }
 
-export default SEO
+export default Seo

@@ -1,16 +1,34 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Gatsby MDX Routes`,
+    description: `Kick off your next, great Gatsby project MDX routes.`,
+    author: `@dannyeka`,
+    siteURL: "https://gatsby-mdx-routes.netlify.com",
+    siteImage: "mdx-routes-main-og-image.jpg",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        name: `pages`,
+        path: `${__dirname}/src/pages/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `posts`,
+        path: `${__dirname}/src/posts/`,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        defaultLayouts: {
+          default: `${__dirname}/src/layouts/layout.js`,
+        },
+        plugins: [`@pauliescanlon/gatsby-mdx-routes`],
       },
     },
     `gatsby-transformer-sharp`,
